@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>register</title>
+</head>
+<body>
+    <div class="form">
+        <form action="" method="POST"id="registerForm">
+            <h2>Inscription</h2>
+            <input type="text" id="nom" name="nom" placeholder="nom" required>
+            <br><br>
+            <input type="text" id="prenom" name="prenom" placeholder="prénom" required>
+            <br><br>
+            <input type="email" id="email" name="email" placeholder="email" required>
+            <br><br>
+            <input type="password" id="password" name="password" placeholder="mot de passe" autocomplete="current-password"required>
+            <br><br>
+           
+           <input type="submit" value="s'inscrire"class="submit">
+           <br> j'ai déja un compte ! <a href="./login.html">se connecter</a>
+        </form>
+    </div>
+    <script>
+      document.getElementById("registerForm").addEventListener("submit",async(e)=>{
+        e.preventDefault();
+        const nom=document.getElementById("nom").value.trim();
+        const prenom=document.getElementById("prenom").value.trim();
+        const email=document.getElementById("email").value.trim();
+        const password=document.getElementById("password").value;
+        const res=await fetch("http://localhost:2000/inscription",{
+            method:"POST",
+            headers:{"Content-type":"application/json"},
+            body:JSON.stringify({nom,prenom,email,password})
+        })
+        const data=await res.json();
+        if(res.ok){
+            alert(data.message);
+            
+            window.location.href="login.html";
+        }else{alert(data.message|| "erreur dans l'inscription");}
+      })
+    </script>
+</body>
+</html>

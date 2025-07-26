@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>login</title>
+</head>
+<body>
+    <div class="form">
+        <form action="" method="POST" id="loginForm">
+            <h2>Connexion</h2>
+            <input type="email" id="email" name="email" placeholder="email" required>
+            <br><br>
+            <input type="password" id="password" name="password" placeholder="mot de passe"autocomplete="current-password" required>
+            <br><br>
+            <a href="./forgot-password.html">mot de passe oublié !</a> <br>
+           <input type="submit" value="se connecter" class="submit"> 
+           <br> Pas de compte ! <a href="register.html">s'inscrire</a>
+        </form>
+    </div>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit",async(e)=>{
+            e.preventDefault();
+            const email=document.getElementById("email").value.trim();
+            const password=document.getElementById("password").value;
+            const res=await fetch("http://localhost:2000/connexion",{
+                method:"POST",
+                headers:{"Content-type":"application/json"},
+                body:JSON.stringify({email,password})
+            })
+            const data=await res.json();
+            if(res.ok){
+                alert(data.message);
+                sessionStorage.setItem("username",data.prenom)
+                window.location.href="home.html"
+            }else{
+                alert(data.message||"erreur lors de la connexion");
+            }
+
+
+        })
+    </script>
+    
+</body>
+</html>
